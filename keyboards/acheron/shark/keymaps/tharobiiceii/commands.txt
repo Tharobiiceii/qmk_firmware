@@ -1,1 +1,1 @@
-make shark:tharobiiceii:dfu-util
+make acheron/shark:tharobiiceii:dfu-util

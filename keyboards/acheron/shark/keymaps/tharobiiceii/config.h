@@ -18,7 +18,4 @@
 #undef BACKLIGHT_LEVELS
 #define BACKLIGHT_LEVELS 3 // Number of backlight levels
 
-// #undef TEMPO_DEFAULT
-// #define TEMPO_DEFAULT 160
-
 #endif
