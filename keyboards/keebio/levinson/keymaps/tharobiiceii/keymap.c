@@ -1,11 +1,8 @@
-// Shark Keymap
+// Levinson Keymap
 // 2.27.20
 
 #include QMK_KEYBOARD_H
 #include "action_layer.h"
-#ifdef AUDIO_ENABLE
-  #include "audio.h"
-#endif
 
 // Empty Space Keycodes
 #define _______ KC_TRNS
@@ -42,7 +39,18 @@ enum keycodes {
   BASE = SAFE_RANGE,
   SCRLK,
   CAPSLK,
-  NUMLK
+  NUMLK,
+  LED_RGB,
+  RGB_OP1,
+  RGB_OP2,
+  RGB_OP3,
+  RGB_OP4,
+  RGB_OP5,
+  RGB_SPE,
+  RGB_MDE,
+  RGB_HUE,
+  RGB_SAT,
+  RGB_VAL
 };
 
 // Tap Dance Enumerations
@@ -130,20 +138,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   // System (Fn0 + Fn1)
   // ,-----------------------------------------------------------------------------------------------------------.
-  // |   RESET|        |        |        |  AU_TOG|        |        |  MU_TOG|        |        |        |  CAPSLK|
+  // |   RESET|        |        |        |        |        |        |        |        |        |        |  CAPSLK|
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
   // |        |        |        |        |        |        |        |        |        |        |        |        |
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
-  // |        |        |        |        |        |        |        |        |        |        |        |        |
+  // |        | RGB_OP1| RGB_OP2| RGB_OP3| RGB_OP4| RGB_OP5| RGB_SPE| RGB_MDE| RGB_HUE| RGB_SAT| RGB_VAL|        |
   // |--------+--------+--------+--------+--------+-----------------+--------+--------+--------+--------+--------|
-  // | BL_STEP|        |        |        | ______ |       Music Mode| ______ |        |        |        |   SCRLK|
+  // | LED_RGB|        |        |        | ______ |                 | ______ |        |        |        |   SCRLK|
   // `-----------------------------------------------------------------------------------------------------------'
 
   [_SYSTEM] = LAYOUT_ortho_4x12(
-      RESET, XXXXXXX, XXXXXXX, XXXXXXX,  AU_TOG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, CAPSLK,
+      RESET, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  CAPSLK,
     _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
-    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
-    BL_STEP, XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX,   SCRLK
+    _______, RGB_OP1, RGB_OP2, RGB_OP3, RGB_OP4, RGB_OP5, RGB_SPE, RGB_MDE, RGB_HUE, RGB_SAT, RGB_VAL, _______,
+    LED_RGB, XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX,   SCRLK
   )
 };
 
@@ -156,7 +164,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
 // Song List
 #ifdef AUDIO_ENABLE
-  float tone_startup[][2] = SONG(PLANCK_SOUND);
+  float tone_startup[][2] = SONG(MARIO_MUSHROOM);
   float tone_scroll[][2] = SONG(SCROLL_LOCK_ON_SOUND);
   float tone_noscroll[][2] = SONG(SCROLL_LOCK_OFF_SOUND);
   float tone_caps[][2] = SONG(CAPS_LOCK_ON_SOUND);
@@ -210,10 +218,163 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       #endif
       return false;
+    case LED_RGB:
+          if (record->event.pressed) {
+        #ifdef RGBLIGHT_ENABLE
+          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
+          if (shifted) {
+            rgblight_toggle();
+          } else {
+            backlight_step();
+          }
+        #endif
+      }
+      return false;
+    case RGB_OP1:
+      if (record->event.pressed) {
+        #ifdef RGBLIGHT_ENABLE
+          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
+          if (shifted) {
+            // Red breathing
+            rgblight_mode(RGBLIGHT_MODE_BREATHING + 1);
+            rgblight_sethsv(0, 255, 255);
+          } else {
+            // Red static
+            rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_sethsv(0, 255, 255);
+          }
+        #endif
+      }
+      return false;
+    case RGB_OP2:
+      if (record->event.pressed) {
+        #ifdef RGBLIGHT_ENABLE
+          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
+          if (shifted) {
+            // Green breathing
+            rgblight_mode(RGBLIGHT_MODE_BREATHING + 1);
+            rgblight_sethsv(85, 255, 255);
+          } else {
+            // Green static
+            rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_sethsv(85, 255, 255);
+          }
+        #endif
+      }
+      return false;
+    case RGB_OP3:
+      if (record->event.pressed) {
+        #ifdef RGBLIGHT_ENABLE
+          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
+          if (shifted) {
+            // Blue breathing
+            rgblight_mode(RGBLIGHT_MODE_BREATHING + 1);
+            rgblight_sethsv(170, 255, 255);
+          } else {
+            // Blue static
+            rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_sethsv(170, 255, 255);
+          }
+        #endif
+      }
+      return false;
+    case RGB_OP4:
+      if (record->event.pressed) {
+        #ifdef RGBLIGHT_ENABLE
+          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
+          if (shifted) {
+            // White breathing
+            rgblight_mode(RGBLIGHT_MODE_BREATHING + 1);
+            rgblight_sethsv(0, 0, 255);
+          } else {
+            // White static
+            rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_sethsv(0, 0, 255);
+          }
+        #endif
+      }
+      return false;
+          case RGB_OP5:
+      if (record->event.pressed) {
+        #ifdef RGBLIGHT_ENABLE
+          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
+          if (shifted) {
+            // Cyan breathing
+            rgblight_mode(RGBLIGHT_MODE_BREATHING + 1);
+            rgblight_sethsv(128, 255, 255);
+          } else {
+            // Cyan static
+            rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_sethsv(128, 255, 255);
+          }
+        #endif
+      }
+      return false;
+    case RGB_SPE:
+      if (record->event.pressed) {
+        #ifdef RGBLIGHT_ENABLE
+          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
+          if (shifted) {
+            rgblight_decrease_speed();
+          } else {
+            rgblight_increase_speed();
+          }
+        #endif
+      }
+      return false;
+    case RGB_MDE:
+      if (record->event.pressed) {
+        #ifdef RGBLIGHT_ENABLE
+          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
+          if (shifted) {
+            rgblight_step_reverse();
+          } else {
+            rgblight_step();
+          }
+        #endif
+      }
+      return false;
+    case RGB_HUE:
+      if (record->event.pressed) {
+        #ifdef RGBLIGHT_ENABLE
+          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
+          if (shifted) {
+            rgblight_decrease_hue();
+          } else {
+            rgblight_increase_hue();
+          }
+        #endif
+      }
+      return false;
+    case RGB_SAT:
+      if (record->event.pressed) {
+        #ifdef RGBLIGHT_ENABLE
+          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
+          if (shifted) {
+            rgblight_decrease_sat();
+          } else {
+            rgblight_increase_sat();
+          }
+        #endif
+      }
+      return false;
+    case RGB_VAL:
+      if (record->event.pressed) {
+        #ifdef RGBLIGHT_ENABLE
+          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
+          if (shifted) {
+            rgblight_decrease_val();
+          } else {
+            rgblight_increase_val();
+          }
+        #endif
+      }
+      return false;
     default:
       return true;
   }
 }
+
 
 // Process Combined Layers
 uint32_t layer_state_set_user(uint32_t state) {
@@ -225,27 +386,10 @@ uint32_t layer_state_set_user(uint32_t state) {
   return state;
 }
 
-bool music_mask_user(uint16_t keycode) {
-  switch (keycode) {
-    case MO_FN0:
-    case MO_FN1:
-      return false;
-    default:
-      return true;
-  }
-}
-
-// Startup Tasks
-void matrix_init_user(void) {
-  #ifdef AUDIO_ENABLE
-    startup_user();
-  #endif
-}
-
 // Startup Music
 #ifdef AUDIO_ENABLE
-  void startup_user(void) {
-    wait_ms(20); // gets rid of tick
+  void startup_user() {
+    _delay_ms(250); // gets rid of tick
     PLAY_SONG(tone_startup);
   }
 #endif
