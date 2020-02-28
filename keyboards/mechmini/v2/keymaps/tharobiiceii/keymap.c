@@ -1,5 +1,5 @@
 // Mechmini 2 Keymap
-// 8/26/19
+// 2.27.20
 
 #include QMK_KEYBOARD_H
 #include "action_layer.h"
@@ -9,10 +9,10 @@
 #define XXXXXXX KC_NO
 
 // Tap-Hold Keycodes
-#define SPC_FN0 LT(_FN0, KC_SPC)
-#define ENT_FN0 LT(_FN0, KC_ENT)
+#define MO_FN0 MO(_FN0)
+#define MO_FN1 MO(_FN1)
 #define TAB_FN1 LT(_FN1, KC_TAB)
-#define SPC_FN1 LT(_FN1, KC_SPC)
+#define ENT_FN0 LT(_FN0, KC_ENT)
 #define SLS_SFT RSFT_T(KC_SLSH)
 
 // Combined Layers
@@ -29,6 +29,9 @@ enum layers {
 // Custom Key Enumerations
 enum keycodes {
   BASE = SAFE_RANGE,
+  SCRLK,
+  CAPSLK,
+  NUMLK,
   LED_RGB,
   RGB_OP1,
   RGB_OP2,
@@ -52,31 +55,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
   // |         LShift|       Z|       X|       C|       V|       B|       N|       M|       ,|   SLS_SFT|       .|
   // |--------+--------+--------+--------+--------+-----------------+--------+--------+--------+--------+--------|
-  // |     LCtrl|      OS|      LAlt|                 SPC_FN0|             SPC_FN1|      RAlt|     App|     RCtrl|
+  // |     LCtrl|     Alt|    MO_FN0|                   Space|               Space|    MO_FN1|      OS|     RCtrl|
   // `-----------------------------------------------------------------------------------------------------------'
 
   [_BASE] = LAYOUT_split_space(
     KC_GESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSPC,
     TAB_FN1,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,  ENT_FN0,
     KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M, KC_COMM, SLS_SFT,  KC_DOT,
-    KC_LCTL, KC_LGUI, KC_LALT, SPC_FN0, SPC_FN1, KC_RALT,  KC_APP, KC_RCTL
+    KC_LCTL, KC_LALT,  MO_FN0,  KC_SPC,  KC_SPC,  MO_FN1, KC_RGUI, KC_RCTL
   ),
 
   // Fn0
   // ,-----------------------------------------------------------------------------------------------------------.
   // |   Pause|       !|       @|       #|       $|       %|       ^|       &|       *|       (|       )|  Insert|
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
-  // | ________ |    Pipe|       _|       +|       {|       }|    Home|     End|    PgUp|    PgDn| _____________ |
+  // | ________ |    Pipe|       _|       +|       {|       }|    Home|     PgDn|    PgUp|    End| _____________ |
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
-  // | _____________ |  CapsLk|   ScrLk|   NumLk| ______ | ______ | ______ |       :|       "| ________ | ______ |
+  // | _____________ | ______ | ______ | ______ | ______ | ______ | ______ | ______ |       :| ________ |       "|
   // |--------+--------+--------+--------+--------+-----------------+--------+--------+--------+--------+--------|
   // | ________ | ______ | ________ | ______________________ | __________________ | ________ | ______ | ________ |
   // `-----------------------------------------------------------------------------------------------------------'
 
   [_FN0] = LAYOUT_split_space(
     KC_PAUS, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  KC_INS,
-    _______, KC_PIPE, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_HOME,  KC_END, KC_PGUP, KC_PGDN, _______,
-    _______, KC_CAPS, KC_SLCK, KC_NLCK, _______, _______, _______, KC_COLN, KC_DQUO, _______, _______,
+    _______, KC_PIPE, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_HOME, KC_PGDN, KC_PGUP,  KC_END, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, KC_COLN, _______, KC_DQUO,
     _______, _______, _______, _______, _______, _______, _______, _______
   ),
 
@@ -86,7 +89,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
   // | ________ |       \|       -|       =|       [|       ]|    Left|    Down|      Up|   Right| _____________ |
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
-  // | _____________ |    Vol-|    Vol+|    Mute| ______ | ______ | ______ |       ;|       '| ________ | ______ |
+  // | _____________ | ______ | ______ | ______ | ______ | ______ | ______ | ______ |       ;| ________ |       '|
   // |--------+--------+--------+--------+--------+-----------------+--------+--------+--------+--------+--------|
   // | ________ | ______ | ________ | ______________________ | __________________ | ________ | ______ | ________ |
   // `-----------------------------------------------------------------------------------------------------------'
@@ -94,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_FN1] = LAYOUT_split_space(
     KC_PSCR,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_DEL,
     _______, KC_BSLS, KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, _______,
-    _______, KC_VOLD, KC_VOLU, KC_MUTE, _______, _______, _______, KC_SCLN, KC_QUOT, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, KC_SCLN, _______, KC_QUOT,
     _______, _______, _______, _______, _______, _______, _______, _______
   ),
 
@@ -102,24 +105,66 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ,-----------------------------------------------------------------------------------------------------------.
   // |   RESET|      F1|      F2|      F3|      F4|      F5|      F6|      F7|      F8|      F9|     F10|     F11|
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
-  // | ________ |        |        |        |        |        |        |        |        |        |               |
+  // | ________ |    Vol-|    Vol+|    Mute|        |        |        |  CAPSLK|   NUMLK|   SCRLK| _____________ |
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
-  // | _____________ | RGB_OP1| RGB_OP2| RGB_OP3| RGB_OP4| RGB_MDE| RGB_HUE| RGB_SAT| RGB_VAL| ________ |        |
+  // | _____________ | RGB_OP1| RGB_OP2| RGB_OP3| RGB_OP4| RGB_MDE| RGB_HUE| RGB_SAT| RGB_VAL| ________ | ______ |
   // |--------+--------+--------+--------+--------+-----------------+--------+--------+--------+--------+--------|
-  // |   LED_RGB|        | ________ | ______________________ | __________________ | ________ |        |       F12|
+  // |   LED_RGB|        | ________ |                        |                    | ________ |        |       F12|
   // `-----------------------------------------------------------------------------------------------------------'
 
   [_SYSTEM] = LAYOUT_split_space(
       RESET,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
-    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
-    _______, RGB_OP1, RGB_OP2, RGB_OP3, RGB_OP4, RGB_MDE, RGB_HUE, RGB_SAT, RGB_VAL, _______, XXXXXXX,
-    LED_RGB, XXXXXXX, _______, _______, _______, _______, XXXXXXX,  KC_F12
+    _______, KC_VOLD, KC_VOLU, KC_MUTE, XXXXXXX, XXXXXXX, XXXXXXX,  CAPSLK,   NUMLK,   SCRLK, _______,
+    _______, RGB_OP1, RGB_OP2, RGB_OP3, RGB_OP4, RGB_MDE, RGB_HUE, RGB_SAT, RGB_VAL, _______, _______,
+    LED_RGB, XXXXXXX, _______, XXXXXXX, XXXXXXX, _______, XXXXXXX,  KC_F12
   )
 };
 
 // Process Custom Keycodes
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+    case SCRLK:
+      if (record->event.pressed) {
+        register_code(KC_SLCK);
+      } else {
+        unregister_code(KC_SLCK);
+      }
+      #ifdef AUDIO_ENABLE
+        if (host_keyboard_leds() & (1 << USB_LED_SCROLL_LOCK)) {
+          PLAY_SONG(tone_scroll);
+        } else {
+          PLAY_SONG(tone_noscroll);
+        }
+      #endif
+      return false;
+    case CAPSLK:
+      if (record->event.pressed) {
+        register_code(KC_CAPS);
+      } else {
+        unregister_code(KC_CAPS);
+      }
+      #ifdef AUDIO_ENABLE
+        if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
+          PLAY_SONG(tone_caps);
+        } else {
+          PLAY_SONG(tone_nocaps);
+        }
+      #endif
+      return false;
+    case NUMLK:
+      if (record->event.pressed) {
+        register_code(KC_NLCK);
+      } else {
+        unregister_code(KC_NLCK);
+      }
+      #ifdef AUDIO_ENABLE
+        if (host_keyboard_leds() & (1 << USB_LED_NUM_LOCK)) {
+          PLAY_SONG(tone_num);
+        } else {
+          PLAY_SONG(tone_nonum);
+        }
+      #endif
+      return false;
     case LED_RGB:
           if (record->event.pressed) {
         #ifdef RGBLIGHT_ENABLE
