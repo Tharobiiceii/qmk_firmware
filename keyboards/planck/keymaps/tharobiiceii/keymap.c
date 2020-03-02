@@ -16,6 +16,7 @@
 #define MO_FN1 MO(_FN1)
 #define TAB_FN1 LT(_FN1, KC_TAB)
 #define ENT_FN0 LT(_FN0, KC_ENT)
+#define APP_SFT LSFT_T(KC_APP)
 
 // Tapping Toggle Keycodes
 #define TT_FN2 TT(_FN2)
@@ -62,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
   // | TAB_FN1|       A|       S|       D|       F|       G|       H|       J|       K|       L|       ;| ENT_FN0|
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
-  // |  LShift|       Z|       X|       C|       V|       B|       N|       M|       ,|       .|       /|  RShift|
+  // | APP_SFT|       Z|       X|       C|       V|       B|       N|       M|       ,|       .|       /|  RShift|
   // |--------+--------+--------+--------+--------+-----------------+--------+--------+--------+--------+--------|
   // |   LCtrl|  TT_FN2|    LGUI|    LAlt|  MO_FN0|            Space|  MO_FN1|    Left|    Down|      Up|   Right|
   // `-----------------------------------------------------------------------------------------------------------'
@@ -70,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = KEYMAP(
     KC_GESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSPC,
     TAB_FN1,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, ENT_FN0,
-    KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
+    APP_SFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
     KC_LCTL,  TT_FN2, KC_LGUI, KC_LALT,  MO_FN0,  KC_SPC,  KC_SPC,  MO_FN1, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT
   ),
 
