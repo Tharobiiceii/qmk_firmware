@@ -13,7 +13,6 @@
 #define MO_FN1 MO(_FN1)
 #define TAB_FN1 LT(_FN1, KC_TAB)
 #define ENT_FN0 LT(_FN0, KC_ENT)
-#define APP_SFT LSFT_T(KC_APP)
 #define SLS_SFT RSFT_T(KC_SLSH)
 #define APP_CTL RCTL_T(KC_APP)
 
