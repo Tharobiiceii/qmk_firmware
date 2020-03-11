@@ -1,5 +1,5 @@
 // Mechmini 2 Keymap
-// 2.27.20
+// 3.10.20
 
 #include QMK_KEYBOARD_H
 #include "action_layer.h"
@@ -13,8 +13,8 @@
 #define MO_FN1 MO(_FN1)
 #define TAB_FN1 LT(_FN1, KC_TAB)
 #define ENT_FN0 LT(_FN0, KC_ENT)
-#define APP_SFT LSFT_T(KC_APP)
 #define SLS_SFT RSFT_T(KC_SLSH)
+#define APP_CTL RCTL_T(KC_APP)
 
 // Combined Layers
 #define SYSTEM ((1UL << _FN0) | (1UL << _FN1))
@@ -38,6 +38,7 @@ enum keycodes {
   RGB_OP2,
   RGB_OP3,
   RGB_OP4,
+  RGB_OP5,
   RGB_MDE,
   RGB_HUE,
   RGB_SAT,
@@ -54,16 +55,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // |-----------------------------------------------------------------------------------------------------------|
   // |   TAB_FN1|       A|       S|       D|       F|       G|       H|       J|       K|       L|        ENT_FN0|
   // |-----------------------------------------------------------------------------------------------------------|
-  // |        APP_SFT|       Z|       X|       C|       V|       B|       N|       M|       ,|   SLS_SFT|       .|
+  // |         LShift|       Z|       X|       C|       V|       B|       N|       M|       ,|         .| SLS_SFT|
   // |-----------------------------------------------------------------------------------------------------------|
-  // |     LCtrl|     Alt|    MO_FN0|                   Space|               Space|    MO_FN1|    RGUI|     RCtrl|
+  // |     LCtrl|     Alt|    MO_FN0|                   Space|               Space|    MO_FN1|    RGUI|   APP_CTL|
   // `-----------------------------------------------------------------------------------------------------------'
 
   [_BASE] = LAYOUT_split_space(
     KC_GESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSPC,
-    TAB_FN1,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,  ENT_FN0,
-    APP_SFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M, KC_COMM, SLS_SFT,  KC_DOT,
-    KC_LCTL, KC_LALT,  MO_FN0,  KC_SPC,  KC_SPC,  MO_FN1, KC_RGUI, KC_RCTL
+    TAB_FN1,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L, ENT_FN0,
+    KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M, KC_COMM,  KC_DOT, SLS_SFT,
+    KC_LCTL, KC_LALT,  MO_FN0,  KC_SPC,  KC_SPC,  MO_FN1, KC_RGUI, APP_CTL
   ),
 
   // Fn0
@@ -72,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // |-----------------------------------------------------------------------------------------------------------|
   // | ________ |    Pipe|       _|       +|       {|       }|    Home|     PgDn|    PgUp|    End| _____________ |
   // |-----------------------------------------------------------------------------------------------------------|
-  // | _____________ | ______ | ______ | ______ | ______ | ______ | ______ | ______ |       :| ________ |       "|
+  // | _____________ | ______ | ______ | ______ | ______ | ______ | ______ | ______ |       :|         "| ______ |
   // |-----------------------------------------------------------------------------------------------------------|
   // | ________ | ______ | ________ | ______________________ | __________________ | ________ | ______ | ________ |
   // `-----------------------------------------------------------------------------------------------------------'
@@ -80,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_FN0] = LAYOUT_split_space(
     KC_PAUS, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  KC_APP,
     _______, KC_PIPE, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_HOME, KC_PGDN, KC_PGUP,  KC_END, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, KC_COLN, _______, KC_DQUO,
+    _______, _______, _______, _______, _______, _______, _______, _______, KC_COLN, KC_DQUO, _______,
     _______, _______, _______, _______, _______, _______, _______, _______
   ),
 
@@ -90,7 +91,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // |-----------------------------------------------------------------------------------------------------------|
   // | ________ |       \|       -|       =|       [|       ]|    Left|    Down|      Up|   Right| _____________ |
   // |-----------------------------------------------------------------------------------------------------------|
-  // | _____________ | ______ | ______ | ______ | ______ | ______ | ______ | ______ |       ;| ________ |       '|
+  // | _____________ | ______ | ______ | ______ | ______ | ______ | ______ | ______ |       ;|         '| ______ |
   // |-----------------------------------------------------------------------------------------------------------|
   // | ________ | ______ | ________ | ______________________ | __________________ | ________ | ______ | ________ |
   // `-----------------------------------------------------------------------------------------------------------'
@@ -98,7 +99,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_FN1] = LAYOUT_split_space(
     KC_PSCR,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_DEL,
     _______, KC_BSLS, KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, KC_SCLN, _______, KC_QUOT,
+    _______, _______, _______, _______, _______, _______, _______, _______, KC_SCLN, KC_QUOT, _______,
     _______, _______, _______, _______, _______, _______, _______, _______
   ),
 
@@ -108,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // |-----------------------------------------------------------------------------------------------------------|
   // | ________ |    Vol-|    Vol-|    Mute|        |        |        |  CAPSLK|   NUMLK|   SCRLK| _____________ |
   // |-----------------------------------------------------------------------------------------------------------|
-  // | _____________ | RGB_OP1| RGB_OP2| RGB_OP3| RGB_OP4| RGB_MDE| RGB_HUE| RGB_SAT| RGB_VAL| ________ | ______ |
+  // | _____________ | RGB_OP1| RGB_OP2| RGB_OP3| RGB_OP4| RGB_OP5| RGB_MDE| RGB_HUE| RGB_SAT|   RGB_VAL| ______ |
   // |-----------------------------------------------------------------------------------------------------------|
   // |   LED_RGB|        | ________ |                        |                    | ________ |        |       F12|
   // `-----------------------------------------------------------------------------------------------------------'
@@ -116,7 +117,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_SYSTEM] = LAYOUT_split_space(
       RESET,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
     _______, KC_VOLD, KC_VOLU, KC_MUTE, XXXXXXX, XXXXXXX, XXXXXXX,  CAPSLK,   NUMLK,   SCRLK, _______,
-    _______, RGB_OP1, RGB_OP2, RGB_OP3, RGB_OP4, RGB_MDE, RGB_HUE, RGB_SAT, RGB_VAL, _______, _______,
+    _______, RGB_OP1, RGB_OP2, RGB_OP3, RGB_OP4, RGB_OP5, RGB_MDE, RGB_HUE, RGB_SAT, RGB_VAL, _______,
     LED_RGB, XXXXXXX, _______, XXXXXXX, XXXXXXX, _______, XXXXXXX,  KC_F12
   )
 };
@@ -238,6 +239,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             // White static
             rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
             rgblight_sethsv(HSV_WHITE);
+          }
+        #endif
+      }
+      return false;
+    case RGB_OP5:
+      if (record->event.pressed) {
+        #ifdef RGBLIGHT_ENABLE
+          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
+          if (shifted) {
+            // Cyan breathing
+            rgblight_mode(RGBLIGHT_MODE_BREATHING + 1);
+            rgblight_sethsv(128, 255, 255);
+          } else {
+            // Cyan static
+            rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_sethsv(128, 255, 255);
           }
         #endif
       }
