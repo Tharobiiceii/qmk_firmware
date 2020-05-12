@@ -11,6 +11,7 @@
 // Tap-Hold Keycodes
 #define MO_FN0 MO(_FN0)
 #define MO_FN1 MO(_FN1)
+#define APP_GUI RGUI_T(KC_APP)
 #define TAB_FN1 LT(_FN1, KC_TAB)
 #define ENT_FN0 LT(_FN0, KC_ENT)
 #define APP_GUI RGUI_T(KC_APP)
