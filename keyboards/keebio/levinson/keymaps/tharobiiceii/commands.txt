@@ -1,2 +1,1 @@
 make keebio/levinson:tharobiiceii:dfu
-make keebio/levinson:tharobiiceii:avrdude
