@@ -17,7 +17,7 @@ AUDIO_ENABLE = no # Audio output
 FAUXCLICKY_ENABLE = no # Buzzer to emulate clicky switches
 API_SYSEX_ENABLE = no  # Quantum SYSEX API
 KEY_LOCK_ENABLE = no # Key lock
-TAP_DANCE_ENABLE = no # Tap Dance
+TAP_DANCE_ENABLE = yes # Tap Dance
 
 ifndef QUANTUM_DIR
     include ../../../../Makefile

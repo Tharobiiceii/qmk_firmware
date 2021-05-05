@@ -1,5 +1,5 @@
-// Planck Light Keymap
-// 11.20.19
+// Planck Keymap
+// 11.11.19
 
 #include QMK_KEYBOARD_H
 #include "action_layer.h"
@@ -16,7 +16,6 @@
 #define MO_FN1 MO(_FN1)
 #define TAB_FN1 LT(_FN1, KC_TAB)
 #define ENT_FN0 LT(_FN0, KC_ENT)
-#define APP_SFT RSFT_T(KC_APP)
 
 // Tapping Toggle Keycodes
 #define TT_FN2 TT(_FN2)
@@ -43,17 +42,7 @@ enum keycodes {
   BASE = SAFE_RANGE,
   SCRLK,
   CAPSLK,
-  NUMLK,
-  RGB_OP1,
-  RGB_OP2,
-  RGB_OP3,
-  RGB_OP4,
-  RGB_OP5,
-  RGB_SPE,
-  RGB_MDE,
-  RGB_HUE,
-  RGB_SAT,
-  RGB_VAL
+  NUMLK
 };
 
 // Tap Dance Enumerations
@@ -73,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
   // | TAB_FN1|       A|       S|       D|       F|       G|       H|       J|       K|       L|       ;| ENT_FN0|
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
-  // |  LShift|       Z|       X|       C|       V|       B|       N|       M|       ,|       .|       /| APP_SFT|
+  // |  LShift|       Z|       X|       C|       V|       B|       N|       M|       ,|       .|       /|  RShift|
   // |--------+--------+--------+--------+--------+-----------------+--------+--------+--------+--------+--------|
   // |   LCtrl|  TT_FN2|    LGUI|    LAlt|  MO_FN0|            Space|  MO_FN1|    Left|    Down|      Up|   Right|
   // `-----------------------------------------------------------------------------------------------------------'
@@ -81,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = KEYMAP(
     KC_GESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSPC,
     TAB_FN1,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, ENT_FN0,
-    KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, APP_SFT,
+    KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
     KC_LCTL,  TT_FN2, KC_LGUI, KC_LALT,  MO_FN0,  KC_SPC,  KC_SPC,  MO_FN1, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT
   ),
 
@@ -145,16 +134,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
   // |        |        |        |        |        |        |        |        |        |        |        |        |
   // |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
-  // |        | RGB_OP1| RGB_OP2| RGB_OP3| RGB_OP4| RGB_OP5| RGB_SPE| RGB_MDE| RGB_HUE| RGB_SAT| RGB_VAL|        |
+  // |        |        |        |        |        |        |        |        |        |        |        |        |
   // |--------+--------+--------+--------+--------+-----------------+--------+--------+--------+--------+--------|
-  // | RGB_TOG|        |        |        | ______ |       Music Mode| ______ |        |        |        |   SCRLK|
+  // | BL_STEP|        |        |        | ______ |       Music Mode| ______ |        |        |        |   SCRLK|
   // `-----------------------------------------------------------------------------------------------------------'
 
   [_SYSTEM] = KEYMAP(
       RESET, XXXXXXX, XXXXXXX, XXXXXXX,  AU_TOG, XXXXXXX, XXXXXXX,   MU_TOG, XXXXXXX, XXXXXXX, XXXXXXX, CAPSLK,
     _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
-    _______, RGB_OP1, RGB_OP2, RGB_OP3, RGB_OP4, RGB_OP5, RGB_SPE, RGB_MDE, RGB_HUE, RGB_SAT, RGB_VAL, _______,
-    RGB_TOG, XXXXXXX, XXXXXXX, XXXXXXX, _______,  MU_MOD,  MU_MOD, _______, XXXXXXX, XXXXXXX, XXXXXXX,   SCRLK
+    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+    BL_STEP, XXXXXXX, XXXXXXX, XXXXXXX, _______,  MU_MOD,  MU_MOD, _______, XXXXXXX, XXXXXXX, XXXXXXX,   SCRLK
   )
 };
 
@@ -221,146 +210,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       #endif
       return false;
-    case RGB_OP1:
-      if (record->event.pressed) {
-        #ifdef RGB_MATRIX_ENABLE
-          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
-          if (shifted) {
-            // Red breathing
-            rgblight_mode(RGB_MATRIX_BREATHING);
-            rgblight_sethsv(0, 255, 255);
-          } else {
-            // Red static
-            rgblight_mode(RGB_MATRIX_SOLID_COLOR);
-            rgblight_sethsv(0, 255, 255);
-          }
-        #endif
-      }
-      return false;
-    case RGB_OP2:
-      if (record->event.pressed) {
-        #ifdef RGB_MATRIX_ENABLE
-          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
-          if (shifted) {
-            // Green breathing
-            rgblight_mode(RGB_MATRIX_BREATHING);
-            rgblight_sethsv(85, 255, 255);
-          } else {
-            // Green static
-            rgblight_mode(RGB_MATRIX_SOLID_COLOR);
-            rgblight_sethsv(85, 255, 255);
-          }
-        #endif
-      }
-      return false;
-    case RGB_OP3:
-      if (record->event.pressed) {
-        #ifdef RGB_MATRIX_ENABLE
-          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
-          if (shifted) {
-            // Blue breathing
-            rgblight_mode(RGB_MATRIX_BREATHING);
-            rgblight_sethsv(170, 255, 255);
-          } else {
-            // Blue static
-            rgblight_mode(RGB_MATRIX_SOLID_COLOR);
-            rgblight_sethsv(170, 255, 255);
-          }
-        #endif
-      }
-      return false;
-    case RGB_OP4:
-      if (record->event.pressed) {
-        #ifdef RGB_MATRIX_ENABLE
-          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
-          if (shifted) {
-            // White breathing
-            rgblight_mode(RGB_MATRIX_BREATHING);
-            rgblight_sethsv(0, 0, 255);
-          } else {
-            // White static
-            rgblight_mode(RGB_MATRIX_SOLID_COLOR);
-            rgblight_sethsv(0, 0, 255);
-          }
-        #endif
-      }
-      return false;
-          case RGB_OP5:
-      if (record->event.pressed) {
-        #ifdef RGB_MATRIX_ENABLE
-          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
-          if (shifted) {
-            // Cyan breathing
-            rgblight_mode(RGB_MATRIX_BREATHING);
-            rgblight_sethsv(128, 255, 255);
-          } else {
-            // Cyan static
-            rgblight_mode(RGB_MATRIX_SOLID_COLOR);
-            rgblight_sethsv(128, 255, 255);
-          }
-        #endif
-      }
-      return false;
-    case RGB_SPE:
-      if (record->event.pressed) {
-        #ifdef RGB_MATRIX_ENABLE
-          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
-          if (shifted) {
-            rgblight_decrease_speed();
-          } else {
-            rgblight_increase_speed();
-          }
-        #endif
-      }
-      return false;
-    case RGB_MDE:
-      if (record->event.pressed) {
-        #ifdef RGB_MATRIX_ENABLE
-          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
-          if (shifted) {
-            rgblight_step_reverse();
-          } else {
-            rgblight_step();
-          }
-        #endif
-      }
-      return false;
-    case RGB_HUE:
-      if (record->event.pressed) {
-        #ifdef RGB_MATRIX_ENABLE
-          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
-          if (shifted) {
-            rgblight_decrease_hue();
-          } else {
-            rgblight_increase_hue();
-          }
-        #endif
-      }
-      return false;
-    case RGB_SAT:
-      if (record->event.pressed) {
-        #ifdef RGB_MATRIX_ENABLE
-          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
-          if (shifted) {
-            rgblight_decrease_sat();
-          } else {
-            rgblight_increase_sat();
-          }
-        #endif
-      }
-      return false;
-    case RGB_VAL:
-      if (record->event.pressed) {
-        #ifdef RGB_MATRIX_ENABLE
-          uint8_t shifted = get_mods() & MOD_MASK_SHIFT;
-          if (shifted) {
-            rgblight_decrease_val();
-          } else {
-            rgblight_increase_val();
-          }
-        #endif
-      }
-      return false;
     default:
       return true;
   }
@@ -385,13 +234,6 @@ bool music_mask_user(uint16_t keycode) {
       return true;
   }
 }
-
-// Disable light in middle of 2U position
-#ifdef RGB_MATRIX_ENABLE
-  void rgb_matrix_indicators_user(void) {
-    rgb_matrix_set_color(42, 0, 0, 0);
-  }
-#endif
 
 // Startup Tasks
 void matrix_init_user(void) {
